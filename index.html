@@ -3,216 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gourav Ideas - Share Your Brilliance</title>
+    <title>Gourav Ideas - Professional Sharing Platform</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Website Offline -->
-    <div id="websiteOffline" class="offline-screen hidden">
-        <div class="offline-box">
-            <div class="offline-icon">
-                <i class="fas fa-moon"></i>
+    <!-- Website Offline Overlay -->
+    <div id="offlineOverlay" class="offline-overlay hidden">
+        <div class="offline-content">
+            <div class="offline-animation">
+                <i class="fas fa-power-off"></i>
             </div>
-            <h1>We'll be back soon</h1>
-            <p>Currently under maintenance</p>
-            <div class="loader"></div>
+            <h1>System Maintenance</h1>
+            <p>We're upgrading our platform. Please check back soon.</p>
+            <div class="maintenance-loader">
+                <div class="loader-bar"></div>
+            </div>
         </div>
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <div class="brand-icon">
-                    <i class="fas fa-gem"></i>
+    <header class="header">
+        <div class="header-container">
+            <nav class="navbar">
+                <a href="/" class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 40 40" fill="none">
+                            <defs>
+                                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00D9FF"/>
+                                    <stop offset="100%" style="stop-color:#7B61FF"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="40" height="40" rx="10" fill="url(#logoGrad)"/>
+                            <path d="M20 10 L30 20 L20 30 L10 20 Z" fill="white" opacity="0.9"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Gourav Ideas</span>
+                </a>
+
+                <div class="nav-menu">
+                    <a href="#explore" class="nav-link">Explore</a>
+                    <a href="#trending" class="nav-link">Trending</a>
+                    <a href="#about" class="nav-link">About</a>
                 </div>
-                <span class="brand-text">Gourav Ideas</span>
-            </div>
 
-            <div class="nav-search">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search messages, people...">
-                </div>
-            </div>
+                <div class="nav-actions">
+                    <!-- Guest Actions -->
+                    <div id="guestActions" class="action-group">
+                        <button class="btn btn-ghost" onclick="showAuth('login')">Sign in</button>
+                        <button class="btn btn-primary" onclick="showAuth('register')">Get Started</button>
+                    </div>
 
-            <div class="nav-right">
-                <!-- Guest -->
-                <div id="guestButtons" class="nav-buttons">
-                    <button class="btn-outline" onclick="openAuth('login')">Sign in</button>
-                    <button class="btn-primary" onclick="openAuth('register')">
-                        <span>Get Started</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-
-                <!-- Logged In -->
-                <div id="userButtons" class="nav-buttons hidden">
-                    <button class="icon-btn" title="Notifications">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
-                    </button>
-
-                    <div class="user-dropdown">
-                        <button class="user-avatar-btn" onclick="toggleDropdown()">
-                            <img id="navAvatar" src="https://i.pravatar.cc/150?img=1" alt="User">
-                            <i class="fas fa-chevron-down"></i>
+                    <!-- User Actions -->
+                    <div id="userActions" class="action-group hidden">
+                        <button class="btn-icon" onclick="toggleNotifications()">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-pulse"></span>
                         </button>
 
-                        <div id="dropdownMenu" class="dropdown-menu hidden">
-                            <div class="dropdown-profile">
-                                <img id="dropAvatar" src="https://i.pravatar.cc/150?img=1" alt="User">
-                                <div class="dropdown-info">
-                                    <h4 id="dropName">User Name</h4>
-                                    <p id="dropEmail">user@email.com</p>
+                        <div class="user-menu">
+                            <button class="user-trigger" onclick="toggleUserMenu()">
+                                <img id="userAvatar" src="https://ui-avatars.com/api/?name=User&background=7B61FF&color=fff" alt="User">
+                                <span id="userName">User</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+
+                            <div id="userMenuDropdown" class="dropdown hidden">
+                                <div class="dropdown-header">
+                                    <img id="menuAvatar" src="https://ui-avatars.com/api/?name=User&background=7B61FF&color=fff" alt="User">
+                                    <div class="dropdown-user-info">
+                                        <h4 id="menuUserName">User Name</h4>
+                                        <p id="menuUserEmail">user@example.com</p>
+                                    </div>
+                                </div>
+
+                                <div class="dropdown-section">
+                                    <a href="#profile" class="dropdown-item">
+                                        <i class="fas fa-user"></i>
+                                        <span>Your Profile</span>
+                                    </a>
+                                    <a href="#posts" class="dropdown-item">
+                                        <i class="fas fa-file-alt"></i>
+                                        <span>Your Posts</span>
+                                    </a>
+                                    <a href="#settings" class="dropdown-item">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Settings</span>
+                                    </a>
+                                </div>
+
+                                <div class="dropdown-divider"></div>
+
+                                <div class="dropdown-section">
+                                    <a href="admin.html" id="adminLink" class="dropdown-item admin-link hidden">
+                                        <i class="fas fa-shield-halved"></i>
+                                        <span>Control Panel</span>
+                                        <span class="badge badge-admin">ADMIN</span>
+                                    </a>
+                                </div>
+
+                                <div class="dropdown-divider" id="adminDivider" class="hidden"></div>
+
+                                <div class="dropdown-section">
+                                    <a href="#" class="dropdown-item danger" onclick="handleLogout()">
+                                        <i class="fas fa-arrow-right-from-bracket"></i>
+                                        <span>Sign Out</span>
+                                    </a>
                                 </div>
                             </div>
-
-                            <div class="dropdown-divider"></div>
-
-                            <a href="#profile" class="dropdown-item">
-                                <i class="fas fa-user"></i>
-                                <span>My Profile</span>
-                            </a>
-                            <a href="#posts" class="dropdown-item">
-                                <i class="fas fa-file-alt"></i>
-                                <span>My Posts</span>
-                            </a>
-                            <a href="#settings" class="dropdown-item">
-                                <i class="fas fa-cog"></i>
-                                <span>Settings</span>
-                            </a>
-
-                            <div class="dropdown-divider"></div>
-
-                            <a href="admin.html" id="adminLink" class="dropdown-item admin-item hidden">
-                                <i class="fas fa-crown"></i>
-                                <span>Admin Panel</span>
-                                <span class="admin-badge">ADMIN</span>
-                            </a>
-
-                            <div class="dropdown-divider" id="adminDivider" class="hidden"></div>
-
-                            <a href="#logout" class="dropdown-item logout-item" onclick="logout()">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <span>Sign Out</span>
-                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     <!-- Hero Section -->
     <section class="hero">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+
         <div class="hero-container">
             <div class="hero-content">
                 <div class="hero-badge">
-                    <i class="fas fa-star"></i>
-                    <span>Premium Dark Experience</span>
+                    <span class="badge-dot"></span>
+                    <span>Professional Sharing Platform</span>
                 </div>
 
                 <h1 class="hero-title">
-                    Share Your Ideas<br>
-                    <span class="gradient-text">In Style</span>
+                    Share Your
+                    <span class="gradient-text">Brilliant Ideas</span>
+                    With The World
                 </h1>
 
                 <p class="hero-description">
-                    A beautiful dark platform inspired by WhatsApp. Share your thoughts,
-                    PDFs, and images with an elegant and professional interface.
+                    A powerful platform for creators, thinkers, and innovators.
+                    Share articles, images, and PDFs with a beautiful, professional interface.
                 </p>
 
-                <div class="hero-buttons">
-                    <button class="btn-hero-primary" onclick="openAuth('register')">
+                <div class="hero-cta">
+                    <button class="btn btn-hero" onclick="showAuth('register')">
                         <span>Start Creating</span>
                         <i class="fas fa-arrow-right"></i>
                     </button>
-                    <button class="btn-hero-secondary">
-                        <i class="fas fa-play-circle"></i>
+                    <button class="btn btn-hero-secondary">
+                        <i class="fas fa-play"></i>
                         <span>Watch Demo</span>
                     </button>
                 </div>
 
                 <div class="hero-stats">
-                    <div class="stat-box">
-                        <div class="stat-number" id="heroUsers">0</div>
-                        <div class="stat-text">Active Users</div>
+                    <div class="stat">
+                        <h3 id="totalUsers">0</h3>
+                        <p>Active Users</p>
                     </div>
-                    <div class="stat-separator"></div>
-                    <div class="stat-box">
-                        <div class="stat-number" id="heroPosts">0</div>
-                        <div class="stat-text">Posts Shared</div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <h3 id="totalPosts">0</h3>
+                        <p>Posts Shared</p>
                     </div>
-                    <div class="stat-separator"></div>
-                    <div class="stat-box">
-                        <div class="stat-number" id="heroPdfs">0</div>
-                        <div class="stat-text">PDFs Uploaded</div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <h3 id="totalPdfs">0</h3>
+                        <p>PDFs Uploaded</p>
                     </div>
                 </div>
             </div>
 
-            <div class="hero-image">
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="chat-preview">
-                            <div class="chat-message received">
-                                <div class="message-bubble">
-                                    <p>Check out this amazing platform!</p>
-                                    <span class="message-time">2:30 PM</span>
-                                </div>
-                            </div>
-                            <div class="chat-message sent">
-                                <div class="message-bubble">
-                                    <p>Wow! Love the dark theme 🌙</p>
-                                    <span class="message-time">2:31 PM</span>
-                                </div>
-                            </div>
-                            <div class="chat-message received">
-                                <div class="message-bubble">
-                                    <p>Share your ideas here!</p>
-                                    <span class="message-time">2:32 PM</span>
-                                </div>
-                            </div>
-                        </div>
+            <div class="hero-visual">
+                <div class="visual-card card-1">
+                    <div class="card-icon purple">
+                        <i class="fas fa-file-pdf"></i>
                     </div>
+                    <h3>PDF Sharing</h3>
+                    <p>Upload and share documents seamlessly</p>
+                </div>
+
+                <div class="visual-card card-2">
+                    <div class="card-icon blue">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <h3>Rich Media</h3>
+                    <p>Beautiful image galleries</p>
+                </div>
+
+                <div class="visual-card card-3">
+                    <div class="card-icon green">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <h3>Articles</h3>
+                    <p>Write and publish content</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Create Post Box -->
+    <!-- Create Post Section -->
     <section id="createSection" class="create-section hidden">
-        <div class="container">
+        <div class="section-container">
             <div class="create-card">
-                <div class="create-header" onclick="openCreateModal()">
-                    <img id="createAvatar" src="https://i.pravatar.cc/150?img=1" alt="User" class="create-avatar">
+                <div class="create-trigger" onclick="openCreateModal()">
+                    <img id="createUserAvatar" src="https://ui-avatars.com/api/?name=User&background=7B61FF&color=fff" alt="User">
                     <div class="create-input">
-                        <span>What's on your mind, <span id="createName">User</span>?</span>
+                        <span>What's on your mind, <span id="createUserName">User</span>?</span>
                     </div>
                 </div>
 
                 <div class="create-actions">
-                    <button class="action-button" onclick="openCreateModal('image')">
+                    <button class="create-action-btn" onclick="openCreateModal('image')">
                         <div class="action-icon blue">
                             <i class="fas fa-image"></i>
                         </div>
                         <span>Photo</span>
                     </button>
-                    <button class="action-button" onclick="openCreateModal('pdf')">
+                    <button class="create-action-btn" onclick="openCreateModal('pdf')">
                         <div class="action-icon red">
                             <i class="fas fa-file-pdf"></i>
                         </div>
                         <span>PDF</span>
                     </button>
-                    <button class="action-button" onclick="openCreateModal('text')">
-                        <div class="action-icon green">
-                            <i class="fas fa-edit"></i>
+                    <button class="create-action-btn" onclick="openCreateModal('text')">
+                        <div class="action-icon purple">
+                            <i class="fas fa-pen"></i>
                         </div>
                         <span>Article</span>
                     </button>
@@ -221,36 +240,29 @@
         </div>
     </section>
 
-    <!-- Filter Tabs -->
-    <section class="filter-section">
-        <div class="container">
-            <div class="filter-header">
+    <!-- Feed Section -->
+    <section class="feed-section">
+        <div class="section-container">
+            <div class="feed-header">
                 <h2>Latest Posts</h2>
-                <div class="filter-tabs">
-                    <button class="filter-tab active" onclick="filterPosts('all')">
-                        <span>All</span>
-                    </button>
-                    <button class="filter-tab" onclick="filterPosts('text')">
+                <div class="feed-filters">
+                    <button class="filter-btn active" data-filter="all" onclick="filterPosts('all')">All</button>
+                    <button class="filter-btn" data-filter="text" onclick="filterPosts('text')">
                         <i class="fas fa-align-left"></i>
-                        <span>Articles</span>
+                        Articles
                     </button>
-                    <button class="filter-tab" onclick="filterPosts('image')">
+                    <button class="filter-btn" data-filter="image" onclick="filterPosts('image')">
                         <i class="fas fa-image"></i>
-                        <span>Photos</span>
+                        Photos
                     </button>
-                    <button class="filter-tab" onclick="filterPosts('pdf')">
+                    <button class="filter-btn" data-filter="pdf" onclick="filterPosts('pdf')">
                         <i class="fas fa-file-pdf"></i>
-                        <span>PDFs</span>
+                        PDFs
                     </button>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Posts Feed -->
-    <section class="feed-section">
-        <div class="container">
-            <div id="postsContainer" class="posts-feed">
+            <div id="postsContainer" class="posts-grid">
                 <!-- Posts will be loaded here -->
             </div>
         </div>
@@ -258,84 +270,84 @@
 
     <!-- Create Post Modal -->
     <div id="createModal" class="modal">
-        <div class="modal-backdrop" onclick="closeCreateModal()"></div>
-        <div class="modal-dialog">
+        <div class="modal-overlay" onclick="closeCreateModal()"></div>
+        <div class="modal-content">
             <div class="modal-header">
-                <h3>Create New Post</h3>
+                <h2>Create New Post</h2>
                 <button class="modal-close" onclick="closeCreateModal()">
-                    <i class="fas fa-times"></i>
+                    <i class="fas fa-xmark"></i>
                 </button>
             </div>
 
-            <form id="postForm" onsubmit="handleCreatePost(event)">
+            <form id="createPostForm" onsubmit="handleCreatePost(event)">
                 <div class="modal-body">
-                    <div class="post-type-tabs">
-                        <button type="button" class="type-tab active" data-type="text" onclick="switchPostType('text')">
+                    <div class="type-tabs">
+                        <button type="button" class="type-tab active" data-type="text" onclick="switchType('text')">
                             <i class="fas fa-align-left"></i>
                             <span>Article</span>
                         </button>
-                        <button type="button" class="type-tab" data-type="image" onclick="switchPostType('image')">
+                        <button type="button" class="type-tab" data-type="image" onclick="switchType('image')">
                             <i class="fas fa-image"></i>
                             <span>Photo</span>
                         </button>
-                        <button type="button" class="type-tab" data-type="pdf" onclick="switchPostType('pdf')">
+                        <button type="button" class="type-tab" data-type="pdf" onclick="switchType('pdf')">
                             <i class="fas fa-file-pdf"></i>
                             <span>PDF</span>
                         </button>
                     </div>
 
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Title</label>
-                        <input type="text" id="postTitle" placeholder="Give your post a title..." required>
+                        <input type="text" id="postTitle" class="form-control" placeholder="Enter a compelling title..." required>
                     </div>
 
-                    <div id="textContent" class="content-tab">
-                        <div class="input-group">
+                    <div id="textTab" class="type-content">
+                        <div class="form-group">
                             <label>Content</label>
-                            <textarea id="postText" rows="8" placeholder="Share your thoughts..."></textarea>
+                            <textarea id="postContent" class="form-control" rows="10" placeholder="Share your thoughts..."></textarea>
                         </div>
                     </div>
 
-                    <div id="imageContent" class="content-tab hidden">
-                        <div class="input-group">
+                    <div id="imageTab" class="type-content hidden">
+                        <div class="form-group">
                             <label>Upload Image</label>
-                            <div class="upload-box">
-                                <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)" hidden>
+                            <div class="upload-zone">
+                                <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)" hidden>
                                 <label for="imageInput" class="upload-area">
                                     <div class="upload-icon">
-                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <i class="fas fa-cloud-arrow-up"></i>
                                     </div>
-                                    <h4>Click to upload</h4>
-                                    <p>or drag and drop</p>
+                                    <h4>Click to upload or drag and drop</h4>
+                                    <p>PNG, JPG, GIF up to 10MB</p>
                                 </label>
-                                <div id="imagePreview" class="preview-area"></div>
+                                <div id="imagePreview" class="upload-preview"></div>
                             </div>
                         </div>
                     </div>
 
-                    <div id="pdfContent" class="content-tab hidden">
-                        <div class="input-group">
+                    <div id="pdfTab" class="type-content hidden">
+                        <div class="form-group">
                             <label>Upload PDF</label>
-                            <div class="upload-box">
-                                <input type="file" id="pdfInput" accept=".pdf" onchange="handlePDFSelect(event)" hidden>
+                            <div class="upload-zone">
+                                <input type="file" id="pdfInput" accept=".pdf" onchange="handlePDFUpload(event)" hidden>
                                 <label for="pdfInput" class="upload-area">
                                     <div class="upload-icon">
-                                        <i class="fas fa-file-upload"></i>
+                                        <i class="fas fa-file-arrow-up"></i>
                                     </div>
-                                    <h4>Click to upload PDF</h4>
-                                    <p>Maximum size 20MB</p>
+                                    <h4>Click to upload PDF document</h4>
+                                    <p>PDF up to 20MB</p>
                                 </label>
-                                <div id="pdfPreview" class="preview-area"></div>
+                                <div id="pdfPreview" class="upload-preview"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="closeCreateModal()">Cancel</button>
-                    <button type="submit" class="btn-submit">
+                    <button type="button" class="btn btn-ghost" onclick="closeCreateModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane"></i>
-                        <span>Publish</span>
+                        <span>Publish Post</span>
                     </button>
                 </div>
             </form>
@@ -344,93 +356,111 @@
 
     <!-- Auth Modal -->
     <div id="authModal" class="modal">
-        <div class="modal-backdrop" onclick="closeAuthModal()"></div>
-        <div class="modal-dialog auth-dialog">
+        <div class="modal-overlay" onclick="closeAuthModal()"></div>
+        <div class="modal-content auth-modal">
             <button class="modal-close" onclick="closeAuthModal()">
-                <i class="fas fa-times"></i>
+                <i class="fas fa-xmark"></i>
             </button>
 
-            <!-- Login -->
+            <!-- Login Form -->
             <div id="loginForm" class="auth-form">
                 <div class="auth-header">
                     <div class="auth-logo">
-                        <i class="fas fa-gem"></i>
+                        <svg viewBox="0 0 40 40" fill="none">
+                            <defs>
+                                <linearGradient id="authGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00D9FF"/>
+                                    <stop offset="100%" style="stop-color:#7B61FF"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="40" height="40" rx="10" fill="url(#authGrad)"/>
+                            <path d="M20 10 L30 20 L20 30 L10 20 Z" fill="white" opacity="0.9"/>
+                        </svg>
                     </div>
                     <h2>Welcome Back</h2>
-                    <p>Sign in to continue</p>
+                    <p>Sign in to continue to Gourav Ideas</p>
                 </div>
 
                 <form onsubmit="handleLogin(event)">
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Email Address</label>
-                        <div class="input-wrapper">
+                        <div class="input-group">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                            <input type="email" id="loginEmail" class="form-control" placeholder="you@example.com" required>
                         </div>
                     </div>
 
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Password</label>
-                        <div class="input-wrapper">
+                        <div class="input-group">
                             <i class="fas fa-lock"></i>
-                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                            <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-auth">
+                    <button type="submit" class="btn btn-primary btn-block">
                         <span>Sign In</span>
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </form>
 
                 <div class="auth-footer">
-                    <p>Don't have an account? <a href="#" onclick="switchAuth('register')">Create one</a></p>
+                    <p>Don't have an account? <a href="#" onclick="switchAuthForm('register')">Create one</a></p>
                 </div>
             </div>
 
-            <!-- Register -->
+            <!-- Register Form -->
             <div id="registerForm" class="auth-form hidden">
                 <div class="auth-header">
                     <div class="auth-logo">
-                        <i class="fas fa-gem"></i>
+                        <svg viewBox="0 0 40 40" fill="none">
+                            <defs>
+                                <linearGradient id="authGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00D9FF"/>
+                                    <stop offset="100%" style="stop-color:#7B61FF"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="40" height="40" rx="10" fill="url(#authGrad2)"/>
+                            <path d="M20 10 L30 20 L20 30 L10 20 Z" fill="white" opacity="0.9"/>
+                        </svg>
                     </div>
-                    <h2>Get Started</h2>
-                    <p>Create your account</p>
+                    <h2>Create Account</h2>
+                    <p>Join Gourav Ideas today</p>
                 </div>
 
                 <form onsubmit="handleRegister(event)">
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Full Name</label>
-                        <div class="input-wrapper">
+                        <div class="input-group">
                             <i class="fas fa-user"></i>
-                            <input type="text" id="registerName" placeholder="John Doe" required>
+                            <input type="text" id="registerName" class="form-control" placeholder="John Doe" required>
                         </div>
                     </div>
 
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Email Address</label>
-                        <div class="input-wrapper">
+                        <div class="input-group">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" id="registerEmail" placeholder="you@example.com" required>
+                            <input type="email" id="registerEmail" class="form-control" placeholder="you@example.com" required>
                         </div>
                     </div>
 
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Password</label>
-                        <div class="input-wrapper">
+                        <div class="input-group">
                             <i class="fas fa-lock"></i>
-                            <input type="password" id="registerPassword" placeholder="Create a password" required>
+                            <input type="password" id="registerPassword" class="form-control" placeholder="Create a strong password" required>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-auth">
+                    <button type="submit" class="btn btn-primary btn-block">
                         <span>Create Account</span>
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </form>
 
                 <div class="auth-footer">
-                    <p>Already have an account? <a href="#" onclick="switchAuth('login')">Sign in</a></p>
+                    <p>Already have an account? <a href="#" onclick="switchAuthForm('login')">Sign in</a></p>
                 </div>
             </div>
         </div>
@@ -439,47 +469,59 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-brand">
-                        <div class="brand-icon">
-                            <i class="fas fa-gem"></i>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 40 40" fill="none">
+                                <defs>
+                                    <linearGradient id="footerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#00D9FF"/>
+                                        <stop offset="100%" style="stop-color:#7B61FF"/>
+                                    </linearGradient>
+                                </defs>
+                                <rect width="40" height="40" rx="10" fill="url(#footerGrad)"/>
+                                <path d="M20 10 L30 20 L20 30 L10 20 Z" fill="white" opacity="0.9"/>
+                            </svg>
                         </div>
                         <span>Gourav Ideas</span>
                     </div>
-                    <p>Share your brilliance with the world</p>
+                    <p>Professional platform for sharing brilliant ideas with the world.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
 
-                <div class="footer-section">
+                <div class="footer-links">
                     <h4>Product</h4>
                     <a href="#">Features</a>
                     <a href="#">Pricing</a>
                     <a href="#">Security</a>
+                    <a href="#">Updates</a>
                 </div>
 
-                <div class="footer-section">
+                <div class="footer-links">
                     <h4>Company</h4>
                     <a href="#">About</a>
                     <a href="#">Blog</a>
                     <a href="#">Careers</a>
+                    <a href="#">Press</a>
                 </div>
 
-                <div class="footer-section">
+                <div class="footer-links">
                     <h4>Resources</h4>
-                    <a href="#">Help</a>
+                    <a href="#">Documentation</a>
+                    <a href="#">Help Center</a>
                     <a href="#">Privacy</a>
                     <a href="#">Terms</a>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>2026 © Crafted with <i class="fas fa-heart"></i> by <span class="highlight">Sharvika</span></p>
+                <p>2026 © Crafted with <i class="fas fa-heart"></i> by <strong>Sharvika</strong></p>
             </div>
         </div>
     </footer>
