@@ -3,278 +3,466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Gourav Ideas</title>
+    <title>Control Panel - Gourav Ideas</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body class="admin-body">
-    <div class="admin-container">
+
+    <!-- Admin Container -->
+    <div class="admin-layout">
         <!-- Sidebar -->
         <aside class="admin-sidebar">
-            <div class="admin-logo">
-                <i class="fas fa-crown"></i>
-                <h2>Admin Panel</h2>
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <defs>
+                            <linearGradient id="sidebarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00D9FF"/>
+                                <stop offset="100%" style="stop-color:#7B61FF"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="40" height="40" rx="10" fill="url(#sidebarGrad)"/>
+                        <path d="M20 10 L30 20 L20 30 L10 20 Z" fill="white" opacity="0.9"/>
+                    </svg>
+                    <div>
+                        <h3>Control Panel</h3>
+                        <p>Admin Dashboard</p>
+                    </div>
+                </div>
             </div>
-            <nav class="admin-nav">
-                <a href="#dashboard" class="active" onclick="showSection('dashboard')">
-                    <i class="fas fa-chart-line"></i> Dashboard
-                </a>
-                <a href="#users" onclick="showSection('users')">
-                    <i class="fas fa-users"></i> User Management
-                </a>
-                <a href="#posts" onclick="showSection('posts')">
-                    <i class="fas fa-file-alt"></i> Posts Management
-                </a>
-                <a href="#settings" onclick="showSection('settings')">
-                    <i class="fas fa-cog"></i> Website Settings
-                </a>
-                <a href="#analytics" onclick="showSection('analytics')">
-                    <i class="fas fa-chart-pie"></i> Analytics
-                </a>
-                <a href="index.html" class="back-btn">
-                    <i class="fas fa-home"></i> Back to Website
-                </a>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <a href="#dashboard" class="nav-item active" onclick="showSection('dashboard')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#users" class="nav-item" onclick="showSection('users')">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                        <span class="nav-badge" id="userCount">0</span>
+                    </a>
+                    <a href="#posts" class="nav-item" onclick="showSection('posts')">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Posts</span>
+                        <span class="nav-badge" id="postCount">0</span>
+                    </a>
+                    <a href="#analytics" class="nav-item" onclick="showSection('analytics')">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Analytics</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <p class="nav-section-title">System</p>
+                    <a href="#settings" class="nav-item" onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#activity" class="nav-item" onclick="showSection('activity')">
+                        <i class="fas fa-clock"></i>
+                        <span>Activity Log</span>
+                    </a>
+                    <a href="#backup" class="nav-item" onclick="showSection('backup')">
+                        <i class="fas fa-database"></i>
+                        <span>Backup</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <a href="index.html" class="nav-item nav-back">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to Website</span>
+                    </a>
+                </div>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="admin-main">
-            <header class="admin-header">
-                <h1 id="sectionTitle"><i class="fas fa-chart-line"></i> Dashboard</h1>
-                <div class="admin-user">
-                    <span>Admin</span>
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=f56565&color=fff" alt="Admin">
+            <div class="admin-header">
+                <div class="admin-header-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageDescription">Overview of your platform</p>
                 </div>
-            </header>
+
+                <div class="admin-header-right">
+                    <button class="btn-icon" onclick="refreshData()">
+                        <i class="fas fa-rotate"></i>
+                    </button>
+                    <div class="admin-user">
+                        <span id="adminUserName">Admin</span>
+                        <img id="adminAvatar" src="https://ui-avatars.com/api/?name=Admin&background=7B61FF&color=fff" alt="Admin">
+                    </div>
+                </div>
+            </div>
 
             <!-- Dashboard Section -->
-            <section id="dashboard" class="admin-section">
+            <section id="dashboardSection" class="admin-section">
                 <div class="stats-grid">
-                    <div class="stat-box">
-                        <div class="stat-icon blue">
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
                             <i class="fas fa-users"></i>
                         </div>
-                        <div class="stat-info">
-                            <h3 id="adminTotalUsers">0</h3>
-                            <p>Total Users</p>
+                        <div class="stat-content">
+                            <p class="stat-label">Total Users</p>
+                            <h3 class="stat-value" id="dashTotalUsers">0</h3>
+                            <p class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span id="usersChange">0</span> this week
+                            </p>
                         </div>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-icon green">
+
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
                             <i class="fas fa-file-alt"></i>
                         </div>
-                        <div class="stat-info">
-                            <h3 id="adminTotalPosts">0</h3>
-                            <p>Total Posts</p>
+                        <div class="stat-content">
+                            <p class="stat-label">Total Posts</p>
+                            <h3 class="stat-value" id="dashTotalPosts">0</h3>
+                            <p class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span id="postsChange">0</span> this week
+                            </p>
                         </div>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-icon orange">
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">
                             <i class="fas fa-file-pdf"></i>
                         </div>
-                        <div class="stat-info">
-                            <h3 id="adminTotalPDFs">0</h3>
-                            <p>PDF Files</p>
+                        <div class="stat-content">
+                            <p class="stat-label">PDF Files</p>
+                            <h3 class="stat-value" id="dashTotalPdfs">0</h3>
+                            <p class="stat-change">
+                                <i class="fas fa-minus"></i>
+                                <span id="pdfsChange">0</span> this week
+                            </p>
                         </div>
                     </div>
-                    <div class="stat-box">
+
+                    <div class="stat-card">
                         <div class="stat-icon red">
                             <i class="fas fa-user-slash"></i>
                         </div>
-                        <div class="stat-info">
-                            <h3 id="adminBlockedUsers">0</h3>
-                            <p>Blocked Users</p>
+                        <div class="stat-content">
+                            <p class="stat-label">Blocked Users</p>
+                            <h3 class="stat-value" id="dashBlockedUsers">0</h3>
+                            <p class="stat-change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                <span id="blockedChange">0</span> this week
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="dashboard-cards">
+                <div class="dashboard-grid">
                     <div class="dashboard-card">
-                        <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                            <button class="btn-text">View All</button>
+                        </div>
                         <div id="recentActivity" class="activity-list">
-                            <!-- Activity items will be loaded here -->
+                            <!-- Activity items will load here -->
                         </div>
                     </div>
+
                     <div class="dashboard-card">
-                        <h3><i class="fas fa-chart-bar"></i> Quick Stats</h3>
+                        <div class="card-header">
+                            <h3>Quick Stats</h3>
+                        </div>
                         <div class="quick-stats">
                             <div class="quick-stat-item">
-                                <span>Posts Today</span>
-                                <strong id="postsToday">0</strong>
+                                <div class="quick-stat-icon purple">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="quick-stat-info">
+                                    <p>Total Views</p>
+                                    <h4 id="totalViews">0</h4>
+                                </div>
                             </div>
                             <div class="quick-stat-item">
-                                <span>New Users (Week)</span>
-                                <strong id="newUsersWeek">0</strong>
+                                <div class="quick-stat-icon blue">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="quick-stat-info">
+                                    <p>Total Likes</p>
+                                    <h4 id="totalLikes">0</h4>
+                                </div>
                             </div>
                             <div class="quick-stat-item">
-                                <span>Total Storage Used</span>
-                                <strong id="storageUsed">0 MB</strong>
+                                <div class="quick-stat-icon green">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="quick-stat-info">
+                                    <p>Storage Used</p>
+                                    <h4 id="storageUsed">0 MB</h4>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- User Management Section -->
-            <section id="users" class="admin-section hidden">
-                <div class="section-actions">
-                    <input type="text" id="userSearch" placeholder="Search users..." onkeyup="searchUsers()">
-                    <button class="action-btn" onclick="refreshUsers()">
-                        <i class="fas fa-sync"></i> Refresh
-                    </button>
+            <!-- Users Section -->
+            <section id="usersSection" class="admin-section hidden">
+                <div class="section-toolbar">
+                    <div class="toolbar-left">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="userSearch" placeholder="Search users..." onkeyup="searchUsers()">
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn btn-ghost" onclick="exportUsers()">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                    </div>
                 </div>
+
                 <div class="table-container">
-                    <table class="admin-table">
+                    <table class="data-table">
                         <thead>
                             <tr>
-                                <th>User ID</th>
-                                <th>Name</th>
+                                <th>User</th>
                                 <th>Email</th>
-                                <th>Status</th>
                                 <th>Posts</th>
+                                <th>Status</th>
                                 <th>Joined</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="usersTableBody">
-                            <!-- Users will be loaded here -->
+                            <!-- Users will load here -->
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- Posts Management Section -->
-            <section id="posts" class="admin-section hidden">
-                <div class="section-actions">
-                    <input type="text" id="postSearch" placeholder="Search posts..." onkeyup="searchPosts()">
-                    <select id="postTypeFilter" onchange="filterAdminPosts()">
-                        <option value="all">All Types</option>
-                        <option value="text">Text</option>
-                        <option value="image">Image</option>
-                        <option value="pdf">PDF</option>
-                    </select>
-                    <button class="action-btn" onclick="refreshPosts()">
-                        <i class="fas fa-sync"></i> Refresh
-                    </button>
+            <!-- Posts Section -->
+            <section id="postsSection" class="admin-section hidden">
+                <div class="section-toolbar">
+                    <div class="toolbar-left">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="postSearch" placeholder="Search posts..." onkeyup="searchPosts()">
+                        </div>
+                        <select class="filter-select" id="postTypeFilter" onchange="filterAdminPosts()">
+                            <option value="all">All Types</option>
+                            <option value="text">Articles</option>
+                            <option value="image">Photos</option>
+                            <option value="pdf">PDFs</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn btn-ghost" onclick="deleteAllPosts()">
+                            <i class="fas fa-trash"></i>
+                            Delete All
+                        </button>
+                    </div>
                 </div>
-                <div id="adminPostsContainer" class="admin-posts-grid">
-                    <!-- Posts will be loaded here -->
-                </div>
-            </section>
 
-            <!-- Website Settings Section -->
-            <section id="settings" class="admin-section hidden">
-                <div class="settings-grid">
-                    <div class="settings-card">
-                        <h3><i class="fas fa-power-off"></i> Website Control</h3>
-                        <div class="setting-item">
-                            <div>
-                                <h4>Website Status</h4>
-                                <p>Turn website on/off for maintenance</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="websiteStatus" onchange="toggleWebsite()" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-item">
-                            <div>
-                                <h4>User Registration</h4>
-                                <p>Allow new user registrations</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="registrationStatus" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-item">
-                            <div>
-                                <h4>Post Creation</h4>
-                                <p>Allow users to create posts</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="postCreationStatus" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="settings-card">
-                        <h3><i class="fas fa-sliders-h"></i> Content Limits</h3>
-                        <div class="setting-input">
-                            <label>Max File Size (MB)</label>
-                            <input type="number" id="maxFileSize" value="10" min="1" max="100">
-                        </div>
-                        <div class="setting-input">
-                            <label>Posts Per User Per Day</label>
-                            <input type="number" id="postsPerDay" value="10" min="1" max="50">
-                        </div>
-                        <div class="setting-input">
-                            <label>Max Text Length</label>
-                            <input type="number" id="maxTextLength" value="5000" min="100" max="10000">
-                        </div>
-                        <button class="save-btn" onclick="saveSettings()">
-                            <i class="fas fa-save"></i> Save Settings
-                        </button>
-                    </div>
-
-                    <div class="settings-card">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
-                        <button class="danger-btn" onclick="clearAllPosts()">
-                            <i class="fas fa-trash"></i> Delete All Posts
-                        </button>
-                        <button class="danger-btn" onclick="clearAllUsers()">
-                            <i class="fas fa-user-times"></i> Remove All Users
-                        </button>
-                        <button class="danger-btn" onclick="resetWebsite()">
-                            <i class="fas fa-redo"></i> Reset Entire Website
-                        </button>
-                    </div>
-
-                    <div class="settings-card">
-                        <h3><i class="fas fa-download"></i> Data Management</h3>
-                        <button class="action-btn full-width" onclick="exportData()">
-                            <i class="fas fa-download"></i> Export All Data
-                        </button>
-                        <button class="action-btn full-width" onclick="generateBackup()">
-                            <i class="fas fa-database"></i> Create Backup
-                        </button>
-                    </div>
+                <div id="adminPostsGrid" class="admin-posts-grid">
+                    <!-- Posts will load here -->
                 </div>
             </section>
 
             <!-- Analytics Section -->
-            <section id="analytics" class="admin-section hidden">
+            <section id="analyticsSection" class="admin-section hidden">
                 <div class="analytics-grid">
                     <div class="analytics-card">
-                        <h3><i class="fas fa-chart-line"></i> User Growth</h3>
-                        <canvas id="userGrowthChart"></canvas>
-                    </div>
-                    <div class="analytics-card">
-                        <h3><i class="fas fa-chart-pie"></i> Content Distribution</h3>
-                        <div class="content-stats">
-                            <div class="content-stat">
-                                <i class="fas fa-font"></i>
-                                <div>
-                                    <strong id="textPostsCount">0</strong>
-                                    <span>Text Posts</span>
+                        <div class="card-header">
+                            <h3>Content Distribution</h3>
+                        </div>
+                        <div class="content-distribution">
+                            <div class="distribution-item">
+                                <div class="distribution-bar">
+                                    <div class="bar-fill purple" style="width: 0%" id="textBar"></div>
+                                </div>
+                                <div class="distribution-info">
+                                    <span>Articles</span>
+                                    <strong id="textCount">0</strong>
                                 </div>
                             </div>
-                            <div class="content-stat">
-                                <i class="fas fa-image"></i>
-                                <div>
-                                    <strong id="imagePostsCount">0</strong>
-                                    <span>Image Posts</span>
+                            <div class="distribution-item">
+                                <div class="distribution-bar">
+                                    <div class="bar-fill blue" style="width: 0%" id="imageBar"></div>
+                                </div>
+                                <div class="distribution-info">
+                                    <span>Photos</span>
+                                    <strong id="imageCount">0</strong>
                                 </div>
                             </div>
-                            <div class="content-stat">
-                                <i class="fas fa-file-pdf"></i>
-                                <div>
-                                    <strong id="pdfPostsCount">0</strong>
-                                    <span>PDF Posts</span>
+                            <div class="distribution-item">
+                                <div class="distribution-bar">
+                                    <div class="bar-fill red" style="width: 0%" id="pdfBar"></div>
+                                </div>
+                                <div class="distribution-info">
+                                    <span>PDFs</span>
+                                    <strong id="pdfCount">0</strong>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <h3>Top Contributors</h3>
+                        </div>
+                        <div id="topContributors" class="contributors-list">
+                            <!-- Top contributors will load here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settingsSection" class="admin-section hidden">
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>Website Control</h3>
+                            <p>Manage website availability</p>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Website Status</h4>
+                                <p>Turn website online/offline</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="websiteToggle" onchange="toggleWebsite()" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>User Registration</h4>
+                                <p>Allow new user signups</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="registrationToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Post Creation</h4>
+                                <p>Allow users to create posts</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="postCreationToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>Content Limits</h3>
+                            <p>Set upload and content restrictions</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Max File Size (MB)</label>
+                            <input type="number" class="form-control" value="20" min="1" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Posts Per User Per Day</label>
+                            <input type="number" class="form-control" value="10" min="1" max="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Text Length (characters)</label>
+                            <input type="number" class="form-control" value="5000" min="100" max="10000">
+                        </div>
+                        <button class="btn btn-primary">Save Settings</button>
+                    </div>
+
+                    <div class="settings-card danger-zone">
+                        <div class="card-header">
+                            <h3>Danger Zone</h3>
+                            <p>Irreversible actions</p>
+                        </div>
+                        <button class="btn btn-danger" onclick="confirmDeleteAllPosts()">
+                            <i class="fas fa-trash"></i>
+                            Delete All Posts
+                        </button>
+                        <button class="btn btn-danger" onclick="confirmDeleteAllUsers()">
+                            <i class="fas fa-user-slash"></i>
+                            Delete All Users
+                        </button>
+                        <button class="btn btn-danger" onclick="confirmResetSystem()">
+                            <i class="fas fa-rotate-left"></i>
+                            Reset System
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activity Section -->
+            <section id="activitySection" class="admin-section hidden">
+                <div class="section-toolbar">
+                    <div class="toolbar-left">
+                        <select class="filter-select" id="activityFilter" onchange="filterActivity()">
+                            <option value="all">All Activity</option>
+                            <option value="user">User Actions</option>
+                            <option value="post">Post Actions</option>
+                            <option value="system">System Events</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn btn-ghost" onclick="clearActivityLog()">
+                            <i class="fas fa-trash"></i>
+                            Clear Log
+                        </button>
+                    </div>
+                </div>
+
+                <div id="activityLog" class="activity-timeline">
+                    <!-- Activity items will load here -->
+                </div>
+            </section>
+
+            <!-- Backup Section -->
+            <section id="backupSection" class="admin-section hidden">
+                <div class="backup-grid">
+                    <div class="backup-card">
+                        <div class="backup-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3>Export Data</h3>
+                        <p>Download all platform data as JSON</p>
+                        <button class="btn btn-primary" onclick="exportAllData()">
+                            <i class="fas fa-download"></i>
+                            Export Data
+                        </button>
+                    </div>
+
+                    <div class="backup-card">
+                        <div class="backup-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>Create Backup</h3>
+                        <p>Generate a complete system backup</p>
+                        <button class="btn btn-primary" onclick="createBackup()">
+                            <i class="fas fa-save"></i>
+                            Create Backup
+                        </button>
+                    </div>
+
+                    <div class="backup-card">
+                        <div class="backup-icon">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <h3>Restore Backup</h3>
+                        <p>Restore from a previous backup</p>
+                        <input type="file" id="backupFile" accept=".json" hidden onchange="restoreBackup(event)">
+                        <button class="btn btn-primary" onclick="document.getElementById('backupFile').click()">
+                            <i class="fas fa-upload"></i>
+                            Restore Backup
+                        </button>
                     </div>
                 </div>
             </section>
@@ -282,16 +470,6 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // Check if user is admin
-        window.onload = function() {
-            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-            if (!currentUser.isAdmin) {
-                alert('Access Denied! Admin privileges required.');
-                window.location.href = 'index.html';
-            }
-            loadAdminData();
-        };
-    </script>
+    <script src="admin.js"></script>
 </body>
 </html>
