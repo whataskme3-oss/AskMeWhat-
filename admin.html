@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Gourav Ideas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <i class="fas fa-crown"></i>
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="admin-nav">
+                <a href="#dashboard" class="active" onclick="showSection('dashboard')">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="#users" onclick="showSection('users')">
+                    <i class="fas fa-users"></i> User Management
+                </a>
+                <a href="#posts" onclick="showSection('posts')">
+                    <i class="fas fa-file-alt"></i> Posts Management
+                </a>
+                <a href="#settings" onclick="showSection('settings')">
+                    <i class="fas fa-cog"></i> Website Settings
+                </a>
+                <a href="#analytics" onclick="showSection('analytics')">
+                    <i class="fas fa-chart-pie"></i> Analytics
+                </a>
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-home"></i> Back to Website
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1 id="sectionTitle"><i class="fas fa-chart-line"></i> Dashboard</h1>
+                <div class="admin-user">
+                    <span>Admin</span>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=f56565&color=fff" alt="Admin">
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="admin-section">
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="adminTotalUsers">0</h3>
+                            <p>Total Users</p>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon green">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="adminTotalPosts">0</h3>
+                            <p>Total Posts</p>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="adminTotalPDFs">0</h3>
+                            <p>PDF Files</p>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon red">
+                            <i class="fas fa-user-slash"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="adminBlockedUsers">0</h3>
+                            <p>Blocked Users</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-cards">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                        <div id="recentActivity" class="activity-list">
+                            <!-- Activity items will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-chart-bar"></i> Quick Stats</h3>
+                        <div class="quick-stats">
+                            <div class="quick-stat-item">
+                                <span>Posts Today</span>
+                                <strong id="postsToday">0</strong>
+                            </div>
+                            <div class="quick-stat-item">
+                                <span>New Users (Week)</span>
+                                <strong id="newUsersWeek">0</strong>
+                            </div>
+                            <div class="quick-stat-item">
+                                <span>Total Storage Used</span>
+                                <strong id="storageUsed">0 MB</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management Section -->
+            <section id="users" class="admin-section hidden">
+                <div class="section-actions">
+                    <input type="text" id="userSearch" placeholder="Search users..." onkeyup="searchUsers()">
+                    <button class="action-btn" onclick="refreshUsers()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Posts</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Posts Management Section -->
+            <section id="posts" class="admin-section hidden">
+                <div class="section-actions">
+                    <input type="text" id="postSearch" placeholder="Search posts..." onkeyup="searchPosts()">
+                    <select id="postTypeFilter" onchange="filterAdminPosts()">
+                        <option value="all">All Types</option>
+                        <option value="text">Text</option>
+                        <option value="image">Image</option>
+                        <option value="pdf">PDF</option>
+                    </select>
+                    <button class="action-btn" onclick="refreshPosts()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+                <div id="adminPostsContainer" class="admin-posts-grid">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Website Settings Section -->
+            <section id="settings" class="admin-section hidden">
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3><i class="fas fa-power-off"></i> Website Control</h3>
+                        <div class="setting-item">
+                            <div>
+                                <h4>Website Status</h4>
+                                <p>Turn website on/off for maintenance</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="websiteStatus" onchange="toggleWebsite()" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <h4>User Registration</h4>
+                                <p>Allow new user registrations</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="registrationStatus" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <h4>Post Creation</h4>
+                                <p>Allow users to create posts</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="postCreationStatus" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3><i class="fas fa-sliders-h"></i> Content Limits</h3>
+                        <div class="setting-input">
+                            <label>Max File Size (MB)</label>
+                            <input type="number" id="maxFileSize" value="10" min="1" max="100">
+                        </div>
+                        <div class="setting-input">
+                            <label>Posts Per User Per Day</label>
+                            <input type="number" id="postsPerDay" value="10" min="1" max="50">
+                        </div>
+                        <div class="setting-input">
+                            <label>Max Text Length</label>
+                            <input type="number" id="maxTextLength" value="5000" min="100" max="10000">
+                        </div>
+                        <button class="save-btn" onclick="saveSettings()">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                        <button class="danger-btn" onclick="clearAllPosts()">
+                            <i class="fas fa-trash"></i> Delete All Posts
+                        </button>
+                        <button class="danger-btn" onclick="clearAllUsers()">
+                            <i class="fas fa-user-times"></i> Remove All Users
+                        </button>
+                        <button class="danger-btn" onclick="resetWebsite()">
+                            <i class="fas fa-redo"></i> Reset Entire Website
+                        </button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3><i class="fas fa-download"></i> Data Management</h3>
+                        <button class="action-btn full-width" onclick="exportData()">
+                            <i class="fas fa-download"></i> Export All Data
+                        </button>
+                        <button class="action-btn full-width" onclick="generateBackup()">
+                            <i class="fas fa-database"></i> Create Backup
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="admin-section hidden">
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3><i class="fas fa-chart-line"></i> User Growth</h3>
+                        <canvas id="userGrowthChart"></canvas>
+                    </div>
+                    <div class="analytics-card">
+                        <h3><i class="fas fa-chart-pie"></i> Content Distribution</h3>
+                        <div class="content-stats">
+                            <div class="content-stat">
+                                <i class="fas fa-font"></i>
+                                <div>
+                                    <strong id="textPostsCount">0</strong>
+                                    <span>Text Posts</span>
+                                </div>
+                            </div>
+                            <div class="content-stat">
+                                <i class="fas fa-image"></i>
+                                <div>
+                                    <strong id="imagePostsCount">0</strong>
+                                    <span>Image Posts</span>
+                                </div>
+                            </div>
+                            <div class="content-stat">
+                                <i class="fas fa-file-pdf"></i>
+                                <div>
+                                    <strong id="pdfPostsCount">0</strong>
+                                    <span>PDF Posts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check if user is admin
+        window.onload = function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            if (!currentUser.isAdmin) {
+                alert('Access Denied! Admin privileges required.');
+                window.location.href = 'index.html';
+            }
+            loadAdminData();
+        };
+    </script>
+</body>
+</html>

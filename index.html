@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourav Ideas - Share Your Brilliance</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Website Offline -->
+    <div id="websiteOffline" class="offline-screen hidden">
+        <div class="offline-box">
+            <div class="offline-icon">
+                <i class="fas fa-moon"></i>
+            </div>
+            <h1>We'll be back soon</h1>
+            <p>Currently under maintenance</p>
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <span class="brand-text">Gourav Ideas</span>
+            </div>
+
+            <div class="nav-search">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search messages, people...">
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <!-- Guest -->
+                <div id="guestButtons" class="nav-buttons">
+                    <button class="btn-outline" onclick="openAuth('login')">Sign in</button>
+                    <button class="btn-primary" onclick="openAuth('register')">
+                        <span>Get Started</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Logged In -->
+                <div id="userButtons" class="nav-buttons hidden">
+                    <button class="icon-btn" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+
+                    <div class="user-dropdown">
+                        <button class="user-avatar-btn" onclick="toggleDropdown()">
+                            <img id="navAvatar" src="https://i.pravatar.cc/150?img=1" alt="User">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+
+                        <div id="dropdownMenu" class="dropdown-menu hidden">
+                            <div class="dropdown-profile">
+                                <img id="dropAvatar" src="https://i.pravatar.cc/150?img=1" alt="User">
+                                <div class="dropdown-info">
+                                    <h4 id="dropName">User Name</h4>
+                                    <p id="dropEmail">user@email.com</p>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a href="#profile" class="dropdown-item">
+                                <i class="fas fa-user"></i>
+                                <span>My Profile</span>
+                            </a>
+                            <a href="#posts" class="dropdown-item">
+                                <i class="fas fa-file-alt"></i>
+                                <span>My Posts</span>
+                            </a>
+                            <a href="#settings" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a href="admin.html" id="adminLink" class="dropdown-item admin-item hidden">
+                                <i class="fas fa-crown"></i>
+                                <span>Admin Panel</span>
+                                <span class="admin-badge">ADMIN</span>
+                            </a>
+
+                            <div class="dropdown-divider" id="adminDivider" class="hidden"></div>
+
+                            <a href="#logout" class="dropdown-item logout-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Premium Dark Experience</span>
+                </div>
+
+                <h1 class="hero-title">
+                    Share Your Ideas<br>
+                    <span class="gradient-text">In Style</span>
+                </h1>
+
+                <p class="hero-description">
+                    A beautiful dark platform inspired by WhatsApp. Share your thoughts,
+                    PDFs, and images with an elegant and professional interface.
+                </p>
+
+                <div class="hero-buttons">
+                    <button class="btn-hero-primary" onclick="openAuth('register')">
+                        <span>Start Creating</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn-hero-secondary">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Watch Demo</span>
+                    </button>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-number" id="heroUsers">0</div>
+                        <div class="stat-text">Active Users</div>
+                    </div>
+                    <div class="stat-separator"></div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="heroPosts">0</div>
+                        <div class="stat-text">Posts Shared</div>
+                    </div>
+                    <div class="stat-separator"></div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="heroPdfs">0</div>
+                        <div class="stat-text">PDFs Uploaded</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="chat-preview">
+                            <div class="chat-message received">
+                                <div class="message-bubble">
+                                    <p>Check out this amazing platform!</p>
+                                    <span class="message-time">2:30 PM</span>
+                                </div>
+                            </div>
+                            <div class="chat-message sent">
+                                <div class="message-bubble">
+                                    <p>Wow! Love the dark theme 🌙</p>
+                                    <span class="message-time">2:31 PM</span>
+                                </div>
+                            </div>
+                            <div class="chat-message received">
+                                <div class="message-bubble">
+                                    <p>Share your ideas here!</p>
+                                    <span class="message-time">2:32 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Post Box -->
+    <section id="createSection" class="create-section hidden">
+        <div class="container">
+            <div class="create-card">
+                <div class="create-header" onclick="openCreateModal()">
+                    <img id="createAvatar" src="https://i.pravatar.cc/150?img=1" alt="User" class="create-avatar">
+                    <div class="create-input">
+                        <span>What's on your mind, <span id="createName">User</span>?</span>
+                    </div>
+                </div>
+
+                <div class="create-actions">
+                    <button class="action-button" onclick="openCreateModal('image')">
+                        <div class="action-icon blue">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <span>Photo</span>
+                    </button>
+                    <button class="action-button" onclick="openCreateModal('pdf')">
+                        <div class="action-icon red">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <span>PDF</span>
+                    </button>
+                    <button class="action-button" onclick="openCreateModal('text')">
+                        <div class="action-icon green">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <span>Article</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Tabs -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-header">
+                <h2>Latest Posts</h2>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterPosts('all')">
+                        <span>All</span>
+                    </button>
+                    <button class="filter-tab" onclick="filterPosts('text')">
+                        <i class="fas fa-align-left"></i>
+                        <span>Articles</span>
+                    </button>
+                    <button class="filter-tab" onclick="filterPosts('image')">
+                        <i class="fas fa-image"></i>
+                        <span>Photos</span>
+                    </button>
+                    <button class="filter-tab" onclick="filterPosts('pdf')">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>PDFs</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Posts Feed -->
+    <section class="feed-section">
+        <div class="container">
+            <div id="postsContainer" class="posts-feed">
+                <!-- Posts will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Post Modal -->
+    <div id="createModal" class="modal">
+        <div class="modal-backdrop" onclick="closeCreateModal()"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Create New Post</h3>
+                <button class="modal-close" onclick="closeCreateModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form id="postForm" onsubmit="handleCreatePost(event)">
+                <div class="modal-body">
+                    <div class="post-type-tabs">
+                        <button type="button" class="type-tab active" data-type="text" onclick="switchPostType('text')">
+                            <i class="fas fa-align-left"></i>
+                            <span>Article</span>
+                        </button>
+                        <button type="button" class="type-tab" data-type="image" onclick="switchPostType('image')">
+                            <i class="fas fa-image"></i>
+                            <span>Photo</span>
+                        </button>
+                        <button type="button" class="type-tab" data-type="pdf" onclick="switchPostType('pdf')">
+                            <i class="fas fa-file-pdf"></i>
+                            <span>PDF</span>
+                        </button>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Title</label>
+                        <input type="text" id="postTitle" placeholder="Give your post a title..." required>
+                    </div>
+
+                    <div id="textContent" class="content-tab">
+                        <div class="input-group">
+                            <label>Content</label>
+                            <textarea id="postText" rows="8" placeholder="Share your thoughts..."></textarea>
+                        </div>
+                    </div>
+
+                    <div id="imageContent" class="content-tab hidden">
+                        <div class="input-group">
+                            <label>Upload Image</label>
+                            <div class="upload-box">
+                                <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)" hidden>
+                                <label for="imageInput" class="upload-area">
+                                    <div class="upload-icon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </div>
+                                    <h4>Click to upload</h4>
+                                    <p>or drag and drop</p>
+                                </label>
+                                <div id="imagePreview" class="preview-area"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="pdfContent" class="content-tab hidden">
+                        <div class="input-group">
+                            <label>Upload PDF</label>
+                            <div class="upload-box">
+                                <input type="file" id="pdfInput" accept=".pdf" onchange="handlePDFSelect(event)" hidden>
+                                <label for="pdfInput" class="upload-area">
+                                    <div class="upload-icon">
+                                        <i class="fas fa-file-upload"></i>
+                                    </div>
+                                    <h4>Click to upload PDF</h4>
+                                    <p>Maximum size 20MB</p>
+                                </label>
+                                <div id="pdfPreview" class="preview-area"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeCreateModal()">Cancel</button>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Publish</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-backdrop" onclick="closeAuthModal()"></div>
+        <div class="modal-dialog auth-dialog">
+            <button class="modal-close" onclick="closeAuthModal()">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Login -->
+            <div id="loginForm" class="auth-form">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to continue</p>
+                </div>
+
+                <form onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-auth">
+                        <span>Sign In</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" onclick="switchAuth('register')">Create one</a></p>
+                </div>
+            </div>
+
+            <!-- Register -->
+            <div id="registerForm" class="auth-form hidden">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h2>Get Started</h2>
+                    <p>Create your account</p>
+                </div>
+
+                <form onsubmit="handleRegister(event)">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="registerName" placeholder="John Doe" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="registerEmail" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="registerPassword" placeholder="Create a password" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-auth">
+                        <span>Create Account</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" onclick="switchAuth('login')">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <div class="brand-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <span>Gourav Ideas</span>
+                    </div>
+                    <p>Share your brilliance with the world</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <a href="#">Features</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">Security</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#">About</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Careers</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="#">Help</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>2026 © Crafted with <i class="fas fa-heart"></i> by <span class="highlight">Sharvika</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
